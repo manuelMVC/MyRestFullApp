@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyRestFullApp.Model
+namespace MyRestFullApp
 {
     public class Class1
     {
