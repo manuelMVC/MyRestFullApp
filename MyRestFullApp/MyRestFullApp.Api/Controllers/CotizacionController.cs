@@ -1,5 +1,4 @@
-﻿using MyRestFullApp.Api.Interfaces;
-using MyRestFullApp.Api.Models;
+﻿using MyRestFullApp.Api.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +9,66 @@ using System.Web.Http;
 namespace MyRestFullApp.Api.Controllers
 {
     public class CotizacionController : ApiController
-    {
-        ICotizacion cotizador;
-        internal CotizacionController(ICotizacion cotizador)
-        {
-            this.cotizador = cotizador;
-        }
+    {   
+        [Route("api/Cotizacion/Dolar")]
         [HttpGet]
-        [Route("Cotizacion/{Moneda}")]
-        public string Cotizar(string Moneda)
+        public string CotizarDolar()
         {
-            var result = new Cotizacion();
-            return result.Cotizar(Moneda);
+            string result = "";
+            try
+            {
+                Contexto contexto = new Contexto(new Dolar());
+                result = contexto.Cotizar();
+            }
+            catch(HttpResponseException ex)
+            {
+                return ex.Response.ReasonPhrase;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        [Route("api/Cotizacion/Pesos")]
+        [HttpGet]
+        public string CotizarPesos()
+        {
+            string result;
+            try
+            {
+                Contexto contexto = new Contexto(new Pesos());
+                result = contexto.Cotizar();
+            }
+            catch (HttpResponseException ex)
+            {
+                return ex.Response.ReasonPhrase;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+        [Route("api/Cotizacion/Real")]
+        [HttpGet]
+        public string CotizarReal()
+        {
+            string result;
+            try
+            {
+                Contexto contexto = new Contexto(new Real());
+                result = contexto.Cotizar();
+            }
+            catch (HttpResponseException ex)
+            {
+                return ex.Response.ReasonPhrase;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
         }
     }
 }

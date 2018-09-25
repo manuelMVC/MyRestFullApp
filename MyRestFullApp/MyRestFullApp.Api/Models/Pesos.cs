@@ -1,15 +1,11 @@
-﻿using MyRestFullApp.Api.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace MyRestFullApp.Api.Models
 {
-    public class Pesos : ICotizacion
+
+    public class Pesos : Moneda
     {
-        public string Cotizar(string input)
+        public override string Cotizar()
         {
             throw new HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
         }

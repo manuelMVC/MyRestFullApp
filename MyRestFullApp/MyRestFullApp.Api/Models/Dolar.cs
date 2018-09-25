@@ -1,24 +1,27 @@
-﻿using MyRestFullApp.Api.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 
 namespace MyRestFullApp.Api.Models
 {
-    public class Dolar : ICotizacion
+    public class Dolar : Moneda
     {
-        public string Cotizar(string input)
+        public override string Cotizar()
         {
-            if (input != "Dolar")
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            HttpWebRequest request = WebRequest.Create("http://www.bancoprovincia.com.ar/Principal/Dolar") as HttpWebRequest;
+            ASCIIEncoding encoder = new ASCIIEncoding();
+            string dataObject = "Cotización del dolar";
+            byte[] data = encoder.GetBytes(dataObject);
+            HttpWebRequest request = WebRequest.Create("https://www.bancoprovincia.com.ar/Principal/Dolar") as HttpWebRequest;
             request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
-
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+            request.GetRequestStream().Write(data, 0, data.Length);
             HttpWebResponse response = request.GetResponse() as HttpWebResponse;
             StreamReader reader = new StreamReader(response.GetResponseStream());
             string resp = reader.ReadToEnd();
