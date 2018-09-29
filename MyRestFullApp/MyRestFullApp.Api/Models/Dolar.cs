@@ -15,12 +15,13 @@ namespace MyRestFullApp.Api.Models
         public override string Cotizar()
         {
             ASCIIEncoding encoder = new ASCIIEncoding();
-            string dataObject = "Cotización del dolar";
+            string dataObject = "Cotización del dólar";
             byte[] data = encoder.GetBytes(dataObject);
             HttpWebRequest request = WebRequest.Create("https://www.bancoprovincia.com.ar/Principal/Dolar") as HttpWebRequest;
             request.Method = "POST";
             request.ContentType = "application/json";
             request.ContentLength = data.Length;
+            request.Expect = "application/json";
             request.GetRequestStream().Write(data, 0, data.Length);
             HttpWebResponse response = request.GetResponse() as HttpWebResponse;
             StreamReader reader = new StreamReader(response.GetResponseStream());
